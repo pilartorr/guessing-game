@@ -41,4 +41,4 @@ function writeResult(string){
   document.getElementById('result').innerText = string;
 }
   // This is the better way to do it, however it's still not the most ideal way, I'll explain after the vacation.
-  // document.getElementById('play').onclick = guessingGame
+  // document.getElementById('play').onclick = () => writeResult(guessingGame())
