@@ -15,8 +15,11 @@
       <h1 class="display-1">Guess me!</h1>
       <p class="lead">I'm thinking of a number between 1 and 10, can you guess it?</p>
 
-      <a class="btn btn-primary btn-lg" href="#" role="button" id="play" onclick="guessingGame()">Play!</a>
+      <button class="btn btn-primary btn-lg" role="button" id="play" onclick="writeResult(guessingGame())">Play!</button>
+
+      <p id="result" class="lead mt-4"></p>
     </div>
+
   </main>
 
   <!-- External javascipt -->

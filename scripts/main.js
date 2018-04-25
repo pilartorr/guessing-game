@@ -5,8 +5,9 @@ function getRandomIntInclusive(min, max) {
 }
 
 function guessingGame(){
+
   // Create a number to guess between 0 and 10
-  let numberToGuess = getRandomIntInclusive(0, 10);
+  let numberToGuess = getRandomIntInclusive(0, 10); // 10
 
   // Initialize a counter
   let count = 1;
@@ -27,14 +28,17 @@ function guessingGame(){
   }
 
   // If you guessed within 3 attempts...
-  if(guess === numberToGuess && count < 3){
+  if(guess === numberToGuess && count <= 3){
     // ... print the success message
-    alert(`Success: the number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`);
+    return `Success: the number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`;
   } else {
     // Otherwise print that the game is over
-    alert(`Sorry human, but you couldn't guess the number in less than three times. The number was ${numberToGuess}`);
+    return `Sorry human, but you couldn't guess the number in less than three times. The number was ${numberToGuess}`;
   }
 }
 
+function writeResult(string){
+  document.getElementById('result').innerText = string;
+}
   // This is the better way to do it, however it's still not the most ideal way, I'll explain after the vacation.
   // document.getElementById('play').onclick = guessingGame
