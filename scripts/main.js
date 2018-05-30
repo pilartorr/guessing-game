@@ -56,8 +56,9 @@ const startGame = function(event){
     event.preventDefault();
   }
 
-  numberToGuess = getRandomIntInclusive(1, 10);
-  count = 0;
+  // numberToGuess = getRandomIntInclusive(1, 10);
+  numberToGuess = 7;
+  count = 1;
 
   printGuessScreen('Guess Me!', 'I\'m thinking of a number between 1 and 10, can you guess it?');
 };
@@ -66,15 +67,15 @@ const makeGuess = function(event){
   event.preventDefault();
   let userGuess = parseInt(document.querySelector('#guess').value.trim());
 
-  count++;
-
-  if(userGuess !== numberToGuess && count < 3 ){
-    printGuessScreen('Wrong!!!', `Try Again! You have ${3 - count} attempts left`);
+  if(userGuess === numberToGuess){
+    printResultScreen('Success!!!', `The number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`);
   } else if (count >= 3) {
     printResultScreen('Sorry, human', `You couldn't guess the number in less than three times. The number was ${numberToGuess}.`);
   } else {
-    printResultScreen('Success!!!', `The number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`);
+    printGuessScreen('Wrong!!!', `Try Again! You have ${3 - count} attempts left`);
   }
+
+  count++;
 };
 
 startGame();
