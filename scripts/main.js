@@ -1,50 +1,80 @@
-// function getRandomIntInclusive(min, max) {
-//     min = Math.ceil(min);
-//     max = Math.floor(max);
-//     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
-// }
-//
-// function guessingGame(){
-//
-//     // Create a number to guess between 0 and 10
-//     let numberToGuess = getRandomIntInclusive(0, 10); // 10
-//
-//     // Initialize a counter
-//     let count = 1;
-//
-//     // Make your fist guess
-//     let guess = parseInt(prompt('Guess a number between 1 - 10: (You have 3 attempts)'));
-//
-//     // As long as the guess is incorrect or you have tried to guess less than 3 times, try to guess again
-//     while(guess !== numberToGuess &&  count < 3){
-//         if(isNaN(guess)){
-//             guess = parseInt(prompt('What the hell do you think you\'re doing?!?!!! I asked for a number!'));
-//         } else {
-//             // Try to guess a number
-//             guess = parseInt(prompt(`Wrong!!! Try Again! You have ${3 - count} attempts left`));
-//             // Count the guess
-//             count++;
-//         }
-//     }
-//
-//     // If you guessed within 3 attempts...
-//     if(guess === numberToGuess && count <= 3){
-//     // ... print the success message
-//         return `Success: the number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`;
-//     } else {
-//     // Otherwise print that the game is over
-//         return `Sorry human, but you couldn't guess the number in less than three times. The number was ${numberToGuess}`;
-//     }
-// }
-//
-// function writeResult(string){
-//     document.getElementById('result').innerText = string;
-// }
-//
-// let playButton = document.querySelector('#play');
-//
-// playButton.addEventListener('click', event => {
-//     event.preventDefault();
-//
-//     writeResult(guessingGame());
-// });
+// Helper functions
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
+// UI functions
+function printAppScreen(htmlString){
+  let appElem = document.querySelector('#app');
+
+  appElem.innerHTML = htmlString;
+}
+
+function printGuessScreen(title, message){
+  printAppScreen(`
+    <h1 class="display-1">${title}</h1>
+    <p class="lead">${message}</p>
+
+    <form class="mt-4 w-50 mx-auto" id="guess-form">
+      <div class="form-row">
+        <div class="col-xs-12 col-sm">
+            <input type="number" class="form-control" name="guess" id="guess" placeholder="Your guess goes here..." required min="1" max="10">
+        </div>
+        <div class="col-xs-12 col-sm-4">
+          <button type="submit" class="btn btn-primary w-100">Guess</button>
+        </div>
+      </div>
+    </form>
+  `);
+
+  let guessForm = document.querySelector('#guess-form');
+
+  guessForm.addEventListener('submit', makeGuess);
+}
+
+function printResultScreen(title, message){
+  printAppScreen(`
+    <h1 class="display-1">${title}</h1>
+    <p class="lead">${message}</p>
+
+    <button class="btn btn-primary btn-lg" role="button" id="again">Play Again!</button>
+  `);
+
+  let againButton = document.querySelector('#again');
+
+  againButton.addEventListener('click', startGame);
+}
+
+// Globals
+let numberToGuess, count;
+
+// Event handlers
+const startGame = function(event){
+  if(event) {
+    event.preventDefault();
+  }
+
+  numberToGuess = getRandomIntInclusive(1, 10);
+  count = 0;
+
+  printGuessScreen('Guess Me!', 'I\'m thinking of a number between 1 and 10, can you guess it?');
+};
+
+const makeGuess = function(event){
+  event.preventDefault();
+  let userGuess = parseInt(document.querySelector('#guess').value.trim());
+
+  count++;
+
+  if(userGuess !== numberToGuess && count < 3 ){
+    printGuessScreen('Wrong!!!', `Try Again! You have ${3 - count} attempts left`);
+  } else if (count >= 3) {
+    printResultScreen('Sorry, human', `You couldn't guess the number in less than three times. The number was ${numberToGuess}.`);
+  } else {
+    printResultScreen('Success!!!', `The number is indeed ${numberToGuess}. You got the number correctly after ${count} attempts.`);
+  }
+};
+
+startGame();
